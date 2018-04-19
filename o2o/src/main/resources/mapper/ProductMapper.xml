@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxh.o2o.dao.ProductMapper">
+  <resultMap id="productMap" type="com.zxh.o2o.entity.Product">
+    <id column="product_id"  property="productId" />
+    <result column="product_name"  property="productName" />
+    <result column="product_desc"  property="productDesc" />
+    <result column="img_addr"  property="imgAddr" />
+    <result column="normal_price"  property="normalPrice" />
+    <result column="promotion_price"  property="promotionPrice" />
+    <result column="priority"  property="priority" />
+    <result column="create_time"  property="createTime" />
+    <result column="last_edit_time"  property="lastEditTime" />
+    <result column="enable_status"  property="enableStatus" />
+   <!--  复合类型  productCategory -->
+   	<association property="productCategory" column="product_category_id"
+		javaType="com.zxh.o2o.entity.ProductCategory">
+		<id column="product_category_id" property="productCategoryId" />
+		<result column="product_category_name" property="productCategoryName" />
+	</association>
+	<!-- 复合类型  shop -->
+	<association property="shop" column="shop_id"
+		javaType="com.zxh.o2o.entity.Shop">
+		<id column="shop_id" property="shopId" />
+		<result column="owner_id" property="ownerId" />
+		<result column="shop_name" property="shopName" />
+	</association>
+	<collection property="productImgList" column="product_id"
+			ofType="com.zxh.o2o.entity.ProductImg">
+			<id column="product_img_id" property="productImgId" />
+			<result column="detail_img" property="imgAddr" />
+			<result column="img_desc" property="imgDesc" />
+			<result column="priority" property="priority" />
+			<result column="create_time" property="createTime" />
+			<result column="product_id" property="productId" />
+	</collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_id, product_name, product_desc, img_addr, normal_price, promotion_price, 
+    priority, create_time, last_edit_time, enable_status, product_category_id, shop_id
+  </sql>
+  
+ 	<insert id="insertProduct" parameterType="product"
+		useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
+		INSERT INTO
+		tb_product(product_name,product_desc,img_addr,
+		normal_price,promotion_price,priority,create_time,
+		last_edit_time,enable_status,product_category_id,
+		shop_id)
+		VALUES
+		(#{productName},#{productDesc},#{imgAddr},
+		#{normalPrice},#{promotionPrice},#{priority},#{createTime},
+		#{lastEditTime},#{enableStatus},#{productCategory.productCategoryId},
+		#{shop.shopId})
+	</insert>
+  
+<!--   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_product
+    where product_id = #{productId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_product
+    where product_id = #{productId}
+  </delete> -->
+  <!-- <insert id="insertSelective" parameterType="com.zxh.o2o.entity.Product">
+    insert into tb_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productDesc != null">
+        product_desc,
+      </if>
+      <if test="imgAddr != null">
+        img_addr,
+      </if>
+      <if test="normalPrice != null">
+        normal_price,
+      </if>
+      <if test="promotionPrice != null">
+        promotion_price,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastEditTime != null">
+        last_edit_time,
+      </if>
+      <if test="enableStatus != null">
+        enable_status,
+      </if>
+      <if test="productCategoryId != null">
+        product_category_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId},
+      </if>
+      <if test="productName != null">
+        #{productName},
+      </if>
+      <if test="productDesc != null">
+        #{productDesc},
+      </if>
+      <if test="imgAddr != null">
+        #{imgAddr},
+      </if>
+      <if test="normalPrice != null">
+        #{normalPrice},
+      </if>
+      <if test="promotionPrice != null">
+        #{promotionPrice},
+      </if>
+      <if test="priority != null">
+        #{priority},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="lastEditTime != null">
+        #{lastEditTime},
+      </if>
+      <if test="enableStatus != null">
+        #{enableStatus},
+      </if>
+      <if test="productCategoryId != null">
+        #{productCategoryId},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxh.o2o.entity.Product">
+    update tb_product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName},
+      </if>
+      <if test="productDesc != null">
+        product_desc = #{productDesc},
+      </if>
+      <if test="imgAddr != null">
+        img_addr = #{imgAddr},
+      </if>
+      <if test="normalPrice != null">
+        normal_price = #{normalPrice},
+      </if>
+      <if test="promotionPrice != null">
+        promotion_price = #{promotionPrice},
+      </if>
+      <if test="priority != null">
+        priority = #{priority},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="lastEditTime != null">
+        last_edit_time = #{lastEditTime},
+      </if>
+      <if test="enableStatus != null">
+        enable_status = #{enableStatus},
+      </if>
+      <if test="productCategoryId != null">
+        product_category_id = #{productCategoryId},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
+    </set>
+    where product_id = #{productId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxh.o2o.entity.Product">
+    update tb_product
+    set product_name = #{productName},
+      product_desc = #{productDesc},
+      img_addr = #{imgAddr},
+      normal_price = #{normalPrice},
+      promotion_price = #{promotionPrice},
+      priority = #{priority},
+      create_time = #{createTime},
+      last_edit_time = #{lastEditTime},
+      enable_status = #{enableStatus},
+      product_category_id = #{productCategoryId},
+      shop_id = #{shopId}
+    where product_id = #{productId}
+  </update> -->
+</mapper>

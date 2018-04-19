@@ -1,0 +1,5 @@
+com\zxh\o2o\dao\ShopMapperTest.class
+com\zxh\o2o\dao\AreaMapperTest.class
+com\zxh\o2o\service\AreaServiceTest.class
+com\zxh\o2o\service\ShopServieTest.class
+com\zxh\o2o\BaseTest.class

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxh.o2o.dao.ProductImgMapper">
+  <sql id="Base_Column_List">
+    product_img_id, img_addr, img_desc, priority, create_time, product_id
+  </sql>
+ 
+  <!-- 批量插入商品图片 -->
+  <insert id="batchInsertProductImg" parameterType="productImg">
+    INSERT INTO tb_product_img 
+    (
+      img_addr, img_desc, 
+      priority, create_time, product_id
+    )
+    VALUES 
+    <foreach collection="list" item="productImg" index="index" separator=",">
+	    (
+	      #{productImg.imgAddr}, #{productImg.imgDesc}, 
+	      #{productImg.priority}, #{productImg.createTime}, #{productImg.productId}
+	    )
+    </foreach>
+  </insert>
+   <!-- <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_product_img
+    where product_img_id = #{productImgId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_product_img
+    where product_img_id = #{productImgId}
+  </delete> -->
+  <!-- <insert id="insertSelective" parameterType="com.zxh.o2o.entity.ProductImg">
+    insert into tb_product_img
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productImgId != null">
+        product_img_id,
+      </if>
+      <if test="imgAddr != null">
+        img_addr,
+      </if>
+      <if test="imgDesc != null">
+        img_desc,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productImgId != null">
+        #{productImgId},
+      </if>
+      <if test="imgAddr != null">
+        #{imgAddr},
+      </if>
+      <if test="imgDesc != null">
+        #{imgDesc},
+      </if>
+      <if test="priority != null">
+        #{priority},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="productId != null">
+        #{productId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxh.o2o.entity.ProductImg">
+    update tb_product_img
+    <set>
+      <if test="imgAddr != null">
+        img_addr = #{imgAddr},
+      </if>
+      <if test="imgDesc != null">
+        img_desc = #{imgDesc},
+      </if>
+      <if test="priority != null">
+        priority = #{priority},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId},
+      </if>
+    </set>
+    where product_img_id = #{productImgId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxh.o2o.entity.ProductImg">
+    update tb_product_img
+    set img_addr = #{imgAddr},
+      img_desc = #{imgDesc},
+      priority = #{priority},
+      create_time = #{createTime},
+      product_id = #{productId}
+    where product_img_id = #{productImgId}
+  </update> -->
+</mapper>
